@@ -6,6 +6,13 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Habilitar CORS para permitir peticiones desde el frontend de forma dinámica
+  const corsOrigin = process.env.CORS_ORIGIN;
+  app.enableCors({
+    origin: corsOrigin,
+    credentials: true,
+  });
+
   // Validaciones Globales
   app.useGlobalPipes(
     new ValidationPipe({
@@ -17,8 +24,8 @@ async function bootstrap() {
 
   // Configuración de Documentación Swagger
   const config = new DocumentBuilder()
-    .setTitle('Santa Rosa Backend API')
-    .setDescription('API para el sistema Santa Rosa, con soporte de Roles, Permisos y Gestión de Usuarios.')
+    .setTitle('Gestion de ventas Backend API')
+    .setDescription('API para el sistema Gestion de ventas, con soporte de Roles, Permisos y Gestión de Usuarios.')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

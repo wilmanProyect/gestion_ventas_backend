@@ -258,6 +258,15 @@ export class SalesController {
       status: res.getStatus(),
       totalPrice: res.getTotalPrice(),
       createdAt: res.getCreatedAt(),
+      payments: res.getPayments().map(pay => ({
+        id: pay.getId(),
+        paymentMethod: pay.getPaymentMethod(),
+        cashAmount: pay.getCashAmount(),
+        qrAmount: pay.getQrAmount(),
+        transferAmount: pay.getTransferAmount(),
+        totalPaid: pay.getTotalPaid(),
+        proofUrl: pay.getProofUrl(),
+      })),
     }));
   }
 }
