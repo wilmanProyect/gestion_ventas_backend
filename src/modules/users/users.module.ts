@@ -8,6 +8,8 @@ import { BcryptPasswordHasherAdapter } from './infrastructure/adapters/bcrypt-pa
 import { CreateUserUseCase } from './application/use-cases/create-user.use-case';
 import { ListUsersUseCase } from './application/use-cases/list-users.use-case';
 import { AssignRolesUseCase } from './application/use-cases/assign-roles.use-case';
+import { DeleteUserUseCase } from './application/use-cases/delete-user.use-case';
+import { UpdateUserStatusUseCase } from './application/use-cases/update-user-status.use-case';
 import { UserController } from './infrastructure/controllers/user.controller';
 import { RolesPermissionsModule } from '@modules/roles-permissions/roles-permissions.module';
 import { AdminSeeder } from './infrastructure/persistence/seeders/admin.seeder';
@@ -30,6 +32,8 @@ import { AdminSeeder } from './infrastructure/persistence/seeders/admin.seeder';
     CreateUserUseCase,
     ListUsersUseCase,
     AssignRolesUseCase,
+    DeleteUserUseCase,
+    UpdateUserStatusUseCase,
     AdminSeeder,
   ],
   exports: [

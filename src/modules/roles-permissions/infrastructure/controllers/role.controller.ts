@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Put, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateRoleUseCase } from '../../application/use-cases/create-role.use-case';
 import { UpdateRoleUseCase } from '../../application/use-cases/update-role.use-case';
 import { ListRolesUseCase } from '../../application/use-cases/list-roles.use-case';
 import { ListPermissionsUseCase } from '../../application/use-cases/list-permissions.use-case';
+import { DeleteRoleUseCase } from '../../application/use-cases/delete-role.use-case';
 import { CreateRoleDto } from '../../application/dtos/create-role.dto';
 import { UpdateRoleDto } from '../../application/dtos/update-role.dto';
 
@@ -15,6 +16,7 @@ export class RoleController {
     private readonly updateRoleUseCase: UpdateRoleUseCase,
     private readonly listRolesUseCase: ListRolesUseCase,
     private readonly listPermissionsUseCase: ListPermissionsUseCase,
+    private readonly deleteRoleUseCase: DeleteRoleUseCase,
   ) {}
 
   @Post()
@@ -78,5 +80,13 @@ export class RoleController {
         description: p.getDescription(),
       })),
     };
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Eliminar un rol lógicamente' })
+  @ApiResponse({ status: 200, description: 'Rol eliminado exitosamente.' })
+  async delete(@Param('id') id: string) {
+    await this.deleteRoleUseCase.execute(id);
+    return { message: 'Rol eliminado exitosamente' };
   }
 }

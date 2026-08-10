@@ -8,6 +8,7 @@ import { CreateRoleUseCase } from './application/use-cases/create-role.use-case'
 import { UpdateRoleUseCase } from './application/use-cases/update-role.use-case';
 import { ListRolesUseCase } from './application/use-cases/list-roles.use-case';
 import { ListPermissionsUseCase } from './application/use-cases/list-permissions.use-case';
+import { DeleteRoleUseCase } from './application/use-cases/delete-role.use-case';
 import { RoleController } from './infrastructure/controllers/role.controller';
 import { PermissionSeeder } from './infrastructure/persistence/seeders/permission.seeder';
 
@@ -25,11 +26,13 @@ import { PermissionSeeder } from './infrastructure/persistence/seeders/permissio
     UpdateRoleUseCase,
     ListRolesUseCase,
     ListPermissionsUseCase,
+    DeleteRoleUseCase,
     PermissionSeeder,
   ],
   exports: [
     ROLE_REPOSITORY,
     TypeOrmModule,
+    DeleteRoleUseCase,
   ],
 })
 export class RolesPermissionsModule {}

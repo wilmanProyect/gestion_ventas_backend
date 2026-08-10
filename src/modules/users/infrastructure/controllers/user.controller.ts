@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Put, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Patch, Body, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateUserUseCase } from '../../application/use-cases/create-user.use-case';
 import { ListUsersUseCase } from '../../application/use-cases/list-users.use-case';
 import { AssignRolesUseCase } from '../../application/use-cases/assign-roles.use-case';
+import { DeleteUserUseCase } from '../../application/use-cases/delete-user.use-case';
+import { UpdateUserStatusUseCase } from '../../application/use-cases/update-user-status.use-case';
 import { CreateUserDto } from '../../application/dtos/create-user.dto';
 import { AssignRolesDto } from '../../application/dtos/assign-roles.dto';
+import { UpdateUserStatusDto } from '../../application/dtos/update-user-status.dto';
 
 @ApiTags('Usuarios')
 @Controller('users')
@@ -13,6 +16,8 @@ export class UserController {
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly listUsersUseCase: ListUsersUseCase,
     private readonly assignRolesUseCase: AssignRolesUseCase,
+    private readonly deleteUserUseCase: DeleteUserUseCase,
+    private readonly updateUserStatusUseCase: UpdateUserStatusUseCase,
   ) {}
 
   @Post()
@@ -64,6 +69,27 @@ export class UserController {
         id: r.getId(),
         name: r.getName(),
       })),
+    };
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Eliminar un usuario lógicamente' })
+  @ApiResponse({ status: 200, description: 'Usuario eliminado exitosamente.' })
+  async delete(@Param('id') id: string) {
+    await this.deleteUserUseCase.execute(id);
+    return { message: 'Usuario eliminado exitosamente' };
+  }
+
+  @Patch(':id/status')
+  @ApiOperation({ summary: 'Actualizar el estado activo/inactivo de un usuario' })
+  @ApiResponse({ status: 200, description: 'Estado del usuario actualizado exitosamente.' })
+  async updateStatus(@Param('id') id: string, @Body() updateUserStatusDto: UpdateUserStatusDto) {
+    const user = await this.updateUserStatusUseCase.execute(id, updateUserStatusDto);
+    return {
+      id: user.getId(),
+      name: user.getName(),
+      email: user.getEmail().getValue(),
+      isActive: user.getIsActive(),
     };
   }
 }

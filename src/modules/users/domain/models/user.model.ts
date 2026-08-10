@@ -10,6 +10,7 @@ export class User {
     private password: Password,
     private isActive: boolean,
     private roles: Role[] = [],
+    private deletedAt: Date | null = null,
   ) {}
 
   public getId(): string {
@@ -34,6 +35,15 @@ export class User {
 
   public getRoles(): Role[] {
     return this.roles;
+  }
+
+  public getDeletedAt(): Date | null {
+    return this.deletedAt;
+  }
+
+  public delete(): void {
+    this.deletedAt = new Date();
+    this.isActive = false;
   }
 
   public updateName(name: string): void {

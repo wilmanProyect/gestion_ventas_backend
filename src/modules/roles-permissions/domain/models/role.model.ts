@@ -6,6 +6,7 @@ export class Role {
     private name: string,
     private description: string,
     private permissions: Permission[] = [],
+    private deletedAt: Date | null = null,
   ) {}
 
   public getId(): string {
@@ -22,6 +23,14 @@ export class Role {
 
   public getPermissions(): Permission[] {
     return this.permissions;
+  }
+
+  public getDeletedAt(): Date | null {
+    return this.deletedAt;
+  }
+
+  public delete(): void {
+    this.deletedAt = new Date();
   }
 
   public updateName(name: string): void {

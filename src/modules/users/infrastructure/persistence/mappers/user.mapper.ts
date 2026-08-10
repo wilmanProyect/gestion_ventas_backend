@@ -14,6 +14,7 @@ export class UserMapper {
       new Password(ormEntity.passwordHash),
       ormEntity.isActive,
       roles,
+      ormEntity.deletedAt || null,
     );
   }
 
@@ -25,6 +26,7 @@ export class UserMapper {
     ormEntity.passwordHash = domainModel.getPassword().getHash();
     ormEntity.isActive = domainModel.getIsActive();
     ormEntity.roles = (domainModel.getRoles() || []).map(r => RoleMapper.toOrm(r));
+    ormEntity.deletedAt = domainModel.getDeletedAt();
     return ormEntity;
   }
 }

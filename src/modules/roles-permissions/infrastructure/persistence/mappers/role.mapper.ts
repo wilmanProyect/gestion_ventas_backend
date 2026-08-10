@@ -11,6 +11,7 @@ export class RoleMapper {
       ormEntity.name,
       ormEntity.description || '',
       permissions,
+      ormEntity.deletedAt || null,
     );
   }
 
@@ -20,6 +21,7 @@ export class RoleMapper {
     ormEntity.name = domainModel.getName();
     ormEntity.description = domainModel.getDescription();
     ormEntity.permissions = (domainModel.getPermissions() || []).map(p => this.permissionToOrm(p));
+    ormEntity.deletedAt = domainModel.getDeletedAt();
     return ormEntity;
   }
 

@@ -37,6 +37,34 @@ services:
     networks:
       - gestion_ventas_network
 
+  # Aplicación Backend (NestJS)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gestion_ventas_backend_app
+    restart: always
+    environment:
+      - PORT=3080
+      - NODE_ENV=production
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD:-postgres}
+      - DB_NAME=${DB_NAME:-gestion_ventas_db}
+      - MINIO_ENDPOINT=minio
+      - MINIO_PORT=9000
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-minioadmin}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-minioadmin}
+      - MINIO_BUCKET_NAME=gestion-ventas
+      - MINIO_USE_SSL=false
+      - JWT_SECRET=${JWT_SECRET:-super-secret-key-santa-rosa}
+      - JWT_EXPIRES_IN=24h
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - gestion_ventas_network
 volumes:
   postgres_data:
   minio_data:

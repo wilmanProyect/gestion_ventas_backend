@@ -46,7 +46,7 @@ export class RoleTypeormRepository implements IRoleRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await this.roleRepository.delete(id);
+    await this.roleRepository.softDelete(id);
   }
 
   async findPermissionsByIds(ids: string[]): Promise<Permission[]> {
