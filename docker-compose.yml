@@ -26,8 +26,8 @@ services:
     container_name: gestion_ventas_minio
     restart: always
     ports:
-      - "9000:9000" # API
-      - "9001:9001" # Web Console
+      - "127.0.0.1:9000:9000" # API
+      - "127.0.0.1:9001:9001" # Web Console
     environment:
       MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
@@ -47,6 +47,8 @@ services:
     environment:
       - PORT=3080
       - NODE_ENV=production
+      - DB_SYNCHRONIZE=${DB_SYNCHRONIZE:-true}
+      - CORS_ORIGIN=${CORS_ORIGIN:-https://rioverde-ventas.hswaretecnologia.com}
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USER=${DB_USER:-postgres}
@@ -65,6 +67,7 @@ services:
         condition: service_healthy
     networks:
       - gestion_ventas_network
+      - rioverde_ventas_net
 volumes:
   postgres_data:
   minio_data:
@@ -72,3 +75,5 @@ volumes:
 networks:
   gestion_ventas_network:
     driver: bridge
+  rioverde_ventas_net:
+    external: true

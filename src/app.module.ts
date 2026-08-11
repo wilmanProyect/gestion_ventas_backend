@@ -35,7 +35,7 @@ import { SalesModule } from './modules/sales/sales.module';
         password: configService.get<string>('DB_PASSWORD', 'postgres'),
         database: configService.get<string>('DB_NAME', 'santa_rosa_db'),
         autoLoadEntities: true,
-        synchronize: configService.get<string>('NODE_ENV') !== 'production', // true solo en desarrollo
+        synchronize: configService.get<string>('DB_SYNCHRONIZE', 'true') === 'true',
       }),
     }),
   ],
