@@ -50,6 +50,7 @@ export class LoginUseCase {
         name: user.getName(),
         email: user.getEmail().getValue(),
         roles: payload.roles,
+        permissions: payload.permissions,
       },
     };
   }

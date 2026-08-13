@@ -44,6 +44,8 @@ services:
       dockerfile: Dockerfile
     container_name: gestion_ventas_backend_app
     restart: always
+    ports:
+      - "3080:3080"
     environment:
       - PORT=3080
       - NODE_ENV=production
