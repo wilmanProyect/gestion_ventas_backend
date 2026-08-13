@@ -45,9 +45,9 @@ services:
     container_name: gestion_ventas_backend_app
     restart: always
     ports:
-      - "3080:3080"
+      - "3090:3090"
     environment:
-      - PORT=3080
+      - PORT=3090
       - NODE_ENV=production
       - DB_SYNCHRONIZE=${DB_SYNCHRONIZE:-true}
       - CORS_ORIGIN=${CORS_ORIGIN:-https://rioverde-ventas.hswaretecnologia.com}
