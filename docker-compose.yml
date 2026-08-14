@@ -54,12 +54,12 @@ services:
       - DB_SYNCHRONIZE=${DB_SYNCHRONIZE:-true}
       - CORS_ORIGIN=${CORS_ORIGIN:-https://rioverde-ventas.hswaretecnologia.com}
       - DB_HOST=postgres
-      - DB_PORT=5432
+      - DB_PORT=5440      
       - DB_USER=${DB_USER:-postgres}
       - DB_PASSWORD=${DB_PASSWORD:-postgres}
       - DB_NAME=${DB_NAME:-gestion_ventas_db}
       - MINIO_ENDPOINT=minio
-      - MINIO_PORT=9000
+      - MINIO_PORT=9005
       - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-minioadmin}
       - MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-minioadmin}
       - MINIO_BUCKET_NAME=gestion-ventas
