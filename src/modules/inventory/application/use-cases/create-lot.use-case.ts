@@ -1,6 +1,8 @@
 import { Injectable, Inject, BadRequestException, NotFoundException } from '@nestjs/common';
 import { INVENTORY_REPOSITORY } from '../../domain/repositories/inventory.repository.interface';
 import type { IInventoryRepository } from '../../domain/repositories/inventory.repository.interface';
+import { BRANCH_REPOSITORY } from '../../../branches/domain/repositories/branch.repository.interface';
+import type { IBranchRepository } from '../../../branches/domain/repositories/branch.repository.interface';
 import { MinioStorageService } from '@shared/infrastructure/storage/minio-storage.service';
 import { Lot } from '../../domain/models/lot.model';
 import { LotItem } from '../../domain/models/lot-item.model';
@@ -12,6 +14,8 @@ export class CreateLotUseCase {
   constructor(
     @Inject(INVENTORY_REPOSITORY)
     private readonly inventoryRepository: IInventoryRepository,
+    @Inject(BRANCH_REPOSITORY)
+    private readonly branchRepository: IBranchRepository,
     private readonly storageService: MinioStorageService,
   ) {}
 
@@ -22,6 +26,15 @@ export class CreateLotUseCase {
 
     if (!dto.items || dto.items.length === 0) {
       throw new BadRequestException('El lote debe contener al menos una variedad de arroz.');
+    }
+
+    // Validar sucursal
+    const branch = await this.branchRepository.findById(dto.branchId);
+    if (!branch) {
+      throw new NotFoundException(`La sucursal con ID ${dto.branchId} no existe.`);
+    }
+    if (!branch.getIsActive() || branch.getDeletedAt() !== null) {
+      throw new BadRequestException(`La sucursal "${branch.getName()}" se encuentra inactiva o eliminada.`);
     }
 
     // Subir el comprobante a MinIO en la carpeta 'lots'
@@ -51,6 +64,7 @@ export class CreateLotUseCase {
       lotId,
       dto.lotNumber,
       receiptUrl,
+      dto.branchId,
       new Date(),
       lotItems,
     );

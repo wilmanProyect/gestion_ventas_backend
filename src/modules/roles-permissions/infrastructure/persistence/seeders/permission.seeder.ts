@@ -30,6 +30,10 @@ export class PermissionSeeder implements OnApplicationBootstrap {
       { name: 'pickup:reservation', description: 'Permite registrar la recogida de reservas y saldo de pago' },
       { name: 'process:return', description: 'Permite procesar devoluciones de arroz' },
       { name: 'view:sales', description: 'Permite ver el listado de ventas y reservas' },
+      { name: 'branches:create', description: 'Permite crear nuevas sucursales' },
+      { name: 'branches:read', description: 'Permite ver las sucursales y sus detalles' },
+      { name: 'branches:update', description: 'Permite actualizar la información de las sucursales' },
+      { name: 'branches:delete', description: 'Permite desactivar o eliminar sucursales' },
     ];
 
     const existingPermissions = await this.roleRepository.findAllPermissions();

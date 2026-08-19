@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RiceVarietyOrmEntity } from './infrastructure/persistence/entities/rice-variety.orm-entity';
 import { LotOrmEntity } from './infrastructure/persistence/entities/lot.orm-entity';
@@ -13,6 +13,9 @@ import { RegisterMovementUseCase } from './application/use-cases/register-moveme
 import { ListInventoryUseCase } from './application/use-cases/list-inventory.use-case';
 import { InventoryController } from './infrastructure/controllers/inventory.controller';
 import { AuthModule } from '../auth/auth.module';
+import { BRANCH_STOCK_CHECKER } from '../branches/domain/ports/branch-stock-checker.interface';
+import { BranchStockCheckerService } from './infrastructure/services/branch-stock-checker.service';
+import { BranchesModule } from '../branches/branches.module';
 
 @Module({
   imports: [
@@ -23,12 +26,17 @@ import { AuthModule } from '../auth/auth.module';
       StockMovementOrmEntity,
     ]),
     AuthModule,
+    forwardRef(() => BranchesModule),
   ],
   controllers: [InventoryController],
   providers: [
     {
       provide: INVENTORY_REPOSITORY,
       useClass: InventoryTypeormRepository,
+    },
+    {
+      provide: BRANCH_STOCK_CHECKER,
+      useClass: BranchStockCheckerService,
     },
     CreateVarietyUseCase,
     CreateLotUseCase,
@@ -37,6 +45,7 @@ import { AuthModule } from '../auth/auth.module';
   ],
   exports: [
     INVENTORY_REPOSITORY,
+    BRANCH_STOCK_CHECKER,
   ],
 })
 export class InventoryModule {}

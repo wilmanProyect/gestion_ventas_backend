@@ -27,6 +27,11 @@ export class CreateLotDto {
   @IsString()
   lotNumber: string;
 
+  @ApiProperty({ example: 'branch-uuid', description: 'ID de la sucursal donde se almacenará el lote' })
+  @IsNotEmpty({ message: 'El ID de la sucursal es requerido' })
+  @IsString()
+  branchId: string;
+
   @ApiProperty({ type: [CreateLotItemDto], description: 'Listado de variedades y sus cantidades/precios en este lote' })
   @IsArray({ message: 'Los ítems del lote deben ser un arreglo' })
   @ValidateNested({ each: true })

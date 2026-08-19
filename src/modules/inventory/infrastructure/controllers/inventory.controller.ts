@@ -85,6 +85,7 @@ export class InventoryController {
 
     const dto: CreateLotDto = {
       lotNumber: body.lotNumber,
+      branchId: body.branchId,
       items: itemsParsed,
     };
 
@@ -93,6 +94,7 @@ export class InventoryController {
       id: lot.getId(),
       lotNumber: lot.getLotNumber(),
       receiptUrl: lot.getReceiptUrl(),
+      branchId: lot.getBranchId(),
       createdAt: lot.getCreatedAt(),
       items: lot.getItems().map(item => ({
         id: item.getId(),

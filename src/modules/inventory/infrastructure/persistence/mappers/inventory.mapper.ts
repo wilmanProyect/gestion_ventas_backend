@@ -22,7 +22,7 @@ export class InventoryMapper {
 
   static toLotDomain(orm: LotOrmEntity): Lot {
     const items = orm.items ? orm.items.map(itemOrm => this.toLotItemDomain(itemOrm)) : [];
-    return new Lot(orm.id, orm.lotNumber, orm.receiptUrl, orm.createdAt, items);
+    return new Lot(orm.id, orm.lotNumber, orm.receiptUrl, orm.branchId, orm.createdAt, items);
   }
 
   static toLotOrm(domain: Lot): LotOrmEntity {
@@ -30,6 +30,7 @@ export class InventoryMapper {
     orm.id = domain.getId();
     orm.lotNumber = domain.getLotNumber();
     orm.receiptUrl = domain.getReceiptUrl();
+    orm.branchId = domain.getBranchId();
     orm.createdAt = domain.getCreatedAt();
     if (domain.getItems()) {
       orm.items = domain.getItems().map(item => this.toLotItemOrm(item));

@@ -5,6 +5,7 @@ export class Lot {
     private readonly id: string,
     private readonly lotNumber: string,
     private readonly receiptUrl: string,
+    private readonly branchId: string,
     private readonly createdAt: Date,
     private readonly items: LotItem[] = [],
   ) {}
@@ -19,6 +20,10 @@ export class Lot {
 
   getReceiptUrl(): string {
     return this.receiptUrl;
+  }
+
+  getBranchId(): string {
+    return this.branchId;
   }
 
   getCreatedAt(): Date {
